@@ -17,5 +17,5 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_updateChannelBtn_clicked()
 {
-    m_view->updateChannelRecord(20);
+    m_view->updateChannelRecord(200);
 }

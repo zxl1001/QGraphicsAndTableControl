@@ -222,16 +222,6 @@
        <string>新建行</string>
       </property>
      </row>
-     <column>
-      <property name="text">
-       <string>Channel</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Chart</string>
-      </property>
-     </column>
     </widget>
    </item>
   </layout>

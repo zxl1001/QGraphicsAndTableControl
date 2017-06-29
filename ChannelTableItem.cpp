@@ -9,7 +9,7 @@ ChannelTableItem::ChannelTableItem(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ChannelTableItem),
     m_minXValue(0),
-    m_maxXValue(100),
+    m_maxXValue(9000),
     m_minYValue(0),
     m_maxYValue(200),
     m_timeLine(Q_NULLPTR)
@@ -20,6 +20,7 @@ ChannelTableItem::ChannelTableItem(QWidget *parent) :
     ui->tableWidget->setColumnCount(2);
     ui->tableWidget->clear();
     ui->tableWidget->setColumnWidth(0,100);
+    cleanRecord();
 }
 
 ChannelTableItem::~ChannelTableItem()

@@ -21,10 +21,12 @@ protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 private:
-    ChannelCursorItem *m_LineItem;
+    ChannelCursorItem *m_timeCursor;
     ChannelTableItem *m_chWidget;
     QGraphicsProxyWidget *m_chProxyWidget;
     bool m_isDragIng;
+    int m_timeCursorLeftBound;
+    int m_timeCursorRightBound;
 };
 
 #endif // CHANNELSCENE_H

@@ -4,14 +4,17 @@
 
 ChannelScene::ChannelScene(QObject *parent)
     :QGraphicsScene(parent),
-      m_LineItem(new ChannelCursorItem),
+      m_timeCursor(new ChannelCursorItem),
       m_chWidget(new ChannelTableItem),
-      m_isDragIng(false)
+      m_isDragIng(false),
+      m_timeCursorLeftBound(100),
+      m_timeCursorRightBound(100)
 {
 
-    addItem(m_LineItem);
+    m_timeCursor->setX(m_timeCursorLeftBound);
+    addItem(m_timeCursor);
     m_chProxyWidget = addWidget(m_chWidget);
-    startTimer(30);
+    startTimer(50);
 }
 
 ChannelScene::~ChannelScene()
@@ -25,6 +28,7 @@ ChannelScene::~ChannelScene()
 
 void ChannelScene::resetRect(const QRectF &rect)
 {
+    m_timeCursorRightBound = rect.width() - 13;
     setSceneRect(rect);
     m_chProxyWidget->setPos(rect.x(), rect.y());
     m_chProxyWidget->resize(rect.size());
@@ -41,10 +45,10 @@ void ChannelScene::timerEvent(QTimerEvent *event)
     {
         return;
     }
-    m_LineItem->setX(m_LineItem->x() + 10);
-    if(m_LineItem->pos().x() > sceneRect().width())
+    m_timeCursor->setX(m_timeCursor->x() + 10);
+    if(m_timeCursor->pos().x() > m_timeCursorRightBound)
     {
-        m_LineItem->setX(-10);
+        m_timeCursor->setX(m_timeCursorLeftBound);
     }
     update();
 }
@@ -53,8 +57,8 @@ void ChannelScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton)
     {
-        if(event->scenePos().x() > m_LineItem->pos().x() - 10
-                && event->scenePos().x() < m_LineItem->pos().x()+10
+        if(event->scenePos().x() > m_timeCursor->pos().x() - 10
+                && event->scenePos().x() < m_timeCursor->pos().x()+10
                 && event->scenePos().y() > 0 && event->scenePos().y() < 20)
         {
             m_isDragIng = true;
@@ -67,7 +71,16 @@ void ChannelScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
     if(m_isDragIng)
     {
-        m_LineItem->setX(event->scenePos().x());
+        m_timeCursor->setX(event->scenePos().x());
+        if(m_timeCursor->x() < m_timeCursorLeftBound)
+        {
+            m_timeCursor->setX(m_timeCursorLeftBound);
+        }
+
+        if(m_timeCursor->x() > m_timeCursorRightBound)
+        {
+            m_timeCursor->setX(m_timeCursorRightBound);
+        }
         update();
     }
 }
